@@ -1,0 +1,17 @@
+# Local configuration — copy config/config.sample.php to config/config.php
+# and fill in real credentials. Never commit the real config.php.
+config/config.php
+
+# PHP error log output
+storage/logs/*
+!storage/logs/.gitkeep
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Packaged builds
+*.zip

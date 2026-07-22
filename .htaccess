@@ -1,0 +1,48 @@
+# =====================================================================
+# SLA Tracker - Root .htaccess
+# =====================================================================
+
+# Disable directory listing
+Options -Indexes
+
+# Default document
+DirectoryIndex index.php
+
+# Custom error page
+ErrorDocument 404 /404.php
+
+# Protect sensitive file types from being served directly
+<FilesMatch "\.(sql|md|log|env|ini)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Prevent access to hidden files (.git, .env, etc.)
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# PHP hardening (ignored silently on hosts that disable php_value in .htaccess)
+<IfModule mod_php.c>
+    php_flag display_errors off
+    php_flag expose_php off
+</IfModule>
